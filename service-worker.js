@@ -3,7 +3,8 @@
  * Progressive Web App Service Worker
  */
 
-const CACHE_NAME = "pitol-qr-pro-v1";
+const CACHE_NAME =
+"pitol-qr-pro-v2";
 
 const FILES_TO_CACHE = [
     "./",
