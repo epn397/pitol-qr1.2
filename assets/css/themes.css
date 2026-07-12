@@ -1,0 +1,50 @@
+/*
+    Theme System
+*/
+
+
+
+body.dark {
+
+
+    --bg:#020617;
+
+    --surface:#0f172a;
+
+    --text:#f8fafc;
+
+    --border:#334155;
+
+
+}
+
+
+
+body.dark input,
+body.dark textarea,
+body.dark select {
+
+    background:#020617;
+
+}
+
+
+
+
+
+body.dark .history-item,
+body.dark .result-box {
+
+    background:#020617;
+
+}
+
+
+
+body.dark .secondary-btn {
+
+    background:#334155;
+
+    color:white;
+
+}
