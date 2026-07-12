@@ -3,351 +3,357 @@
  * Application Bootstrap
  */
 
-
-import {QRGenerator} from "./qr.js";
-
-import {QRScanner} from "./scanner.js";
-
-import {Downloader} from "./download.js";
-
-import {HistoryManager} from "./history.js";
-
-import {BatchGenerator} from "./batch.js";
-
-import {UIController} from "./ui.js";
-
-
-
+import { QRGenerator } from "./qr.js";
+import { QRScanner } from "./scanner.js";
+import { Downloader } from "./download.js";
+import { HistoryManager } from "./history.js";
+import { BatchGenerator } from "./batch.js";
+import { UIController } from "./ui.js";
 
 
 class App {
 
+    constructor(){
 
+        this.ui = new UIController();
 
-constructor(){
+        this.qr = new QRGenerator();
 
+        this.scanner = new QRScanner();
 
-    this.ui =
-    new UIController();
+        this.history = new HistoryManager();
 
-
-
-    this.qr =
-    new QRGenerator();
-
-
-
-    this.scanner =
-    new QRScanner();
-
-
-
-    this.history =
-    new HistoryManager();
-
-
-
-    this.batch =
-    new BatchGenerator();
-
-
-
-}
-
-
-
-
-
-
-
-start() document
-.getElementById(
-    "generateBatch"
-)
-.onclick =
-async ()=>{
-
-
-const input =
-document
-.getElementById(
-    "csvInput"
-);
-
-
-
-if(
-input.files.length===0
-)
-return;
-
-
-
-await this.batch.generate(
-    input.files[0]
-);
-
-
-
-};{
-
-
-
-    
-    this.ui.initialize();
-
-
-    this.history.render();
-
-
-
-
-    document
-    .getElementById(
-        "generateBtn"
-    )
-    .onclick =
-    ()=>this.generateQR();
-
-
-
-
-
-    document
-    .getElementById(
-        "clearBtn"
-    )
-    .onclick =
-    ()=>this.qr.clear();
-
-
-
-
-
-
-    document
-    .getElementById(
-        "themeToggle"
-    )
-    .onclick =
-    ()=>this.ui.toggleTheme();
-
-
-
-
-
-    document
-    .getElementById(
-        "startScanner"
-    )
-    .onclick =
-    ()=>this.scanner.start();
-
-
-
-
-
-    document
-    .getElementById(
-        "stopScanner"
-    )
-    .onclick =
-    ()=>this.scanner.stop();
-
-
-
-
-
-    document
-    .getElementById(
-        "clearHistory"
-    )
-    .onclick =
-    ()=>this.history.clear();
-
-
-
-
-
-
-   /*
-    QR Export Buttons
-*/
-
-
-document
-.getElementById(
-    "downloadPNG"
-)
-.onclick =
-()=>{
-
-
-    const canvas =
-    document.querySelector(
-        "#qrPreview canvas"
-    );
-
-
-    if(canvas){
-
-        Downloader.PNG(canvas);
+        this.batch = new BatchGenerator();
 
     }
 
 
-};
+    start(){
+
+
+        this.ui.initialize();
+
+
+        this.history.render();
+
+
+
+        /*
+        ==========================
+        QR GENERATOR
+        ==========================
+        */
+
+
+        document
+        .getElementById("generateBtn")
+        .onclick = ()=>{
+
+            this.generateQR();
+
+        };
+
+
+
+        document
+        .getElementById("clearBtn")
+        .onclick = ()=>{
+
+            this.qr.clear();
+
+        };
+
+
+
+
+        /*
+        ==========================
+        THEME
+        ==========================
+        */
+
+
+        document
+        .getElementById("themeToggle")
+        .onclick = ()=>{
+
+            this.ui.toggleTheme();
+
+        };
+
+
+
+
+        /*
+        ==========================
+        SCANNER
+        ==========================
+        */
+
+
+        document
+        .getElementById("startScanner")
+        .onclick = ()=>{
+
+            this.scanner.start();
+
+        };
+
+
+
+        document
+        .getElementById("stopScanner")
+        .onclick = ()=>{
+
+            this.scanner.stop();
+
+        };
 
 
 
 
 
-document
-.getElementById(
-    "downloadSVG"
-)
-.onclick =
-()=>{
+        /*
+        ==========================
+        HISTORY
+        ==========================
+        */
 
 
-    const canvas =
-    document.querySelector(
-        "#qrPreview canvas"
-    );
+        document
+        .getElementById("clearHistory")
+        .onclick = ()=>{
+
+            this.history.clear();
+
+        };
 
 
-    if(canvas){
 
-        Downloader.SVG(canvas);
+
+
+        /*
+        ==========================
+        DOWNLOAD BUTTONS
+        ==========================
+        */
+
+
+        document
+        .getElementById("downloadPNG")
+        .onclick = ()=>{
+
+
+            const canvas =
+            document.querySelector(
+                "#qrPreview canvas"
+            );
+
+
+            if(canvas){
+
+                Downloader.PNG(canvas);
+
+            }
+
+
+        };
+
+
+
+
+        document
+        .getElementById("downloadSVG")
+        .onclick = ()=>{
+
+
+            const canvas =
+            document.querySelector(
+                "#qrPreview canvas"
+            );
+
+
+            if(canvas){
+
+                Downloader.SVG(canvas);
+
+            }
+
+
+        };
+
+
+
+
+
+        document
+        .getElementById("downloadPDF")
+        .onclick = ()=>{
+
+
+            const canvas =
+            document.querySelector(
+                "#qrPreview canvas"
+            );
+
+
+            if(canvas){
+
+                Downloader.PDF(canvas);
+
+            }
+
+
+        };
+
+
+
+
+
+
+        /*
+        ==========================
+        BATCH GENERATOR
+        ==========================
+        */
+
+
+        document
+        .getElementById("generateBatch")
+        .onclick = async ()=>{
+
+
+            const input =
+            document.getElementById(
+                "csvInput"
+            );
+
+
+            if(!input.files.length){
+
+                return;
+
+            }
+
+
+            await this.batch.generate(
+                input.files[0]
+            );
+
+
+        };
+
+
 
     }
 
 
-};
+
+
+    generateQR(){
 
 
 
-
-
-document
-.getElementById(
-    "downloadPDF"
-)
-.onclick =
-()=>{
-
-
-    const canvas =
-    document.querySelector(
-        "#qrPreview canvas"
-    );
-
-
-    if(canvas){
-
-        Downloader.PDF(canvas);
-
-    }
-
-
-};
+        const type =
+        document
+        .getElementById(
+            "qrType"
+        )
+        .value;
 
 
 
-document
-.getElementById(
-"downloadPDF"
-)
-.onclick =
-()=>{
-
-
-const canvas =
-document.querySelector(
-"#qrPreview canvas"
-);
-
-
-if(canvas)
-Downloader.PDF(canvas);
-
-
-};
-
-
-    };
+        const input =
+        document
+        .getElementById(
+            "qrInput"
+        )
+        .value;
 
 
 
+        if(!input){
 
-}
+            return;
 
-
-
-
-
-
-generateQR(){
-
-
-    const text =
-    document
-    .getElementById(
-        "qrInput"
-    )
-    .value;
-
-
-
-    if(!text)
-    return;
-
-
-
-    const dark =
-    document
-    .getElementById(
-        "qrForeground"
-    )
-    .value;
-
-
-
-    const light =
-    document
-    .getElementById(
-        "qrBackground"
-    )
-    .value;
-
-
-
-    this.qr.generate(
-
-        text,
-
-        {
-            dark,
-            light
         }
 
-    );
 
 
-    this.history.render();
+
+        const dark =
+        document
+        .getElementById(
+            "qrForeground"
+        )
+        .value;
+
+
+
+        const light =
+        document
+        .getElementById(
+            "qrBackground"
+        )
+        .value;
+
+
+
+
+        this.qr.generate(
+
+            type,
+
+            input,
+
+            {
+
+                dark,
+
+                light
+
+            }
+
+        );
+
+
+
+        this.history.add(
+
+            {
+
+                type,
+
+                content: input,
+
+                date:
+                new Date()
+                .toISOString()
+
+            }
+
+        );
+
+
+
+        this.history.render();
+
+
+
+    }
 
 
 
 }
 
 
-
-}
 
 
 
 window.addEventListener(
+
     "DOMContentLoaded",
+
     ()=>{
 
 
@@ -359,36 +365,62 @@ window.addEventListener(
 
 
 
+
+        /*
+        ==========================
+        SERVICE WORKER
+        ==========================
+        */
+
+
         if(
             "serviceWorker" in navigator
         ){
 
+
             navigator.serviceWorker.register(
+
                 "service-worker.js"
+
             )
+
             .then(
+
                 registration=>{
 
                     console.log(
-                        "Service Worker registered:",
+
+                        "Service Worker:",
                         registration.scope
+
                     );
 
                 }
+
             )
+
             .catch(
+
                 error=>{
 
+
                     console.error(
-                        "Service Worker registration failed:",
+
+                        "Service Worker Error:",
                         error
+
                     );
 
+
                 }
+
             );
+
 
         }
 
 
+
     }
+
 );
