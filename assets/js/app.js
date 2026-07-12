@@ -266,12 +266,12 @@ window.addEventListener(
     ()=>{
 
 
-        const app =
-        new App();
+       if(
+"serviceWorker" in navigator
+){
 
-
-        app.start();
-
-
-    }
+navigator.serviceWorker.register(
+"service-worker.js"
 );
+
+}
