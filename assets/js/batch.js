@@ -1,60 +1,94 @@
 /**
  * PITOL QR PRO
- * Batch QR Generator
+ * Batch QR Generator Module
  */
-
-
-import {CONFIG} from "./config.js";
-
 
 
 export class BatchGenerator {
 
 
 
-constructor(){
+    constructor(){
 
 
-    this.progress =
-    document.getElementById(
-        "batchProgress"
-    );
+        this.progress =
+        document.getElementById(
+            "batchProgress"
+        );
 
 
-}
-
-
-
-
-
-async generate(file){
-
-
-    try{
-
-
-        this.progress.innerHTML =
-        "Reading CSV...";
+    }
 
 
 
-        const csv =
+
+
+
+
+    async generate(file){
+
+
+
+        if(!file){
+
+            return;
+
+        }
+
+
+
+
+
+        if(
+            typeof JSZip === "undefined"
+        ){
+
+
+            console.error(
+
+                "JSZip library missing"
+
+            );
+
+
+            return;
+
+
+        }
+
+
+
+
+
+
+        const text =
         await file.text();
 
 
 
+
+
         const rows =
-        this.parseCSV(csv);
+        this.parseCSV(text);
+
+
 
 
 
         if(rows.length===0){
 
-            throw new Error(
-                "CSV is empty"
+
+            this.show(
+                "No data found"
             );
 
+
+            return;
+
+
         }
+
+
 
 
 
@@ -64,7 +98,10 @@ async generate(file){
 
 
 
+
+
         let completed = 0;
+
 
 
 
@@ -76,17 +113,47 @@ async generate(file){
 
 
             const canvas =
-            await this.createQR(
-                row
+            document.createElement(
+                "canvas"
             );
 
 
 
+
+
+            await QRCode.toCanvas(
+
+                canvas,
+
+                row,
+
+
+                {
+
+
+                    width:300,
+
+
+                    margin:2
+
+
+                }
+
+
+            );
+
+
+
+
+
             const image =
-            canvas.toDataURL(
+            canvas
+            .toDataURL(
                 "image/png"
             )
             .split(",")[1];
+
+
 
 
 
@@ -97,10 +164,14 @@ async generate(file){
                 image,
 
                 {
+
                     base64:true
+
                 }
 
             );
+
+
 
 
 
@@ -108,10 +179,12 @@ async generate(file){
 
 
 
-            this.updateProgress(
-                completed,
-                rows.length
+            this.show(
+
+                `Generated ${completed}/${rows.length}`
+
             );
+
 
 
         }
@@ -120,49 +193,109 @@ async generate(file){
 
 
 
-        this.progress.innerHTML =
-        "Creating ZIP...";
 
 
 
         const content =
         await zip.generateAsync(
+
             {
+
                 type:"blob"
+
             }
+
         );
 
 
 
-        this.downloadZip(
+
+
+
+
+        const url =
+        URL.createObjectURL(
             content
         );
 
 
 
-        this.progress.innerHTML =
-        "Completed ✔";
+
+
+        const link =
+        document.createElement(
+            "a"
+        );
+
+
+
+        link.href=url;
+
+
+
+        link.download =
+        "pitol-qr-batch.zip";
+
+
+
+        link.click();
+
+
+
+
+
+        URL.revokeObjectURL(
+            url
+        );
+
+
+
+
+        this.show(
+            "Batch completed"
+        );
 
 
 
     }
 
-    catch(error){
 
 
-        console.error(error);
 
 
-        this.progress.innerHTML =
-        "Error: "
-        +
-        error.message;
+
+
+
+
+    parseCSV(data){
+
+
+
+        return data
+
+        .split(/\r?\n/)
+
+        .map(
+
+            row=>
+
+            row.trim()
+
+        )
+
+        .filter(
+
+            row=>
+
+            row.length>0
+
+        );
+
 
 
     }
 
 
-}
 
 
 
@@ -170,142 +303,25 @@ async generate(file){
 
 
 
-parseCSV(data){
-
-
-    return data
-    .split("\n")
-    .map(
-        row=>row.trim()
-    )
-    .filter(
-        row=>row.length>0
-    );
-
-
-}
+    show(message){
 
 
 
+        if(this.progress){
 
 
+            this.progress.innerHTML =
 
-
-createQR(text){
-
-
-    return new Promise(
-        resolve=>{
-
-
-            const canvas =
-            document.createElement(
-                "canvas"
-            );
-
-
-
-            QRCode.toCanvas(
-
-                canvas,
-
-                text,
-
-                {
-                    width:300,
-                    height:300
-                },
-
-
-                ()=>{
-
-
-                    resolve(canvas);
-
-
-                }
-
-            );
-
+            message;
 
 
         }
-    );
-
-
-}
 
 
 
+    }
 
 
-
-
-updateProgress(
-done,
-total
-){
-
-
-    const percent =
-    Math.round(
-        (done/total)*100
-    );
-
-
-
-    this.progress.innerHTML =
-
-    `
-    Generating:
-    ${done}/${total}
-    (${percent}%)
-    `;
-
-
-}
-
-
-
-
-
-
-
-downloadZip(blob){
-
-
-
-    const url =
-    URL.createObjectURL(
-        blob
-    );
-
-
-
-    const link =
-    document.createElement(
-        "a"
-    );
-
-
-
-    link.href=url;
-
-
-    link.download =
-    "pitol-qr-batch.zip";
-
-
-    link.click();
-
-
-
-    URL.revokeObjectURL(
-        url
-    );
-
-
-}
 
 
 }
