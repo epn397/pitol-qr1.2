@@ -1,220 +1,283 @@
 /**
  * PITOL QR PRO
- * User Interface Controller
+ * UI Controller Module
  */
-
-
-import {StorageManager} from "./storage.js";
-
 
 
 export class UIController {
 
 
 
-constructor(){
+    constructor(){
 
 
-    this.pages =
-    document.querySelectorAll(
-        ".page"
-    );
-
-
-    this.buttons =
-    document.querySelectorAll(
-        ".nav-btn"
-    );
-
-
-
-}
-
-
-
-
-
-initialize(){
-
-
-    this.buttons.forEach(
-        button=>{
-
-
-            button.onclick =
-            ()=>{
-
-
-                this.openPage(
-                    button.dataset.page
-                );
-
-
-            };
-
-
-        }
-    );
-
-
-
-    this.loadTheme();
-
-
-
-}
-
-
-
-
-
-
-openPage(name){
-
-
-    this.pages.forEach(
-        page=>{
-
-
-            page.classList.remove(
-                "active"
-            );
-
-
-        }
-    );
-
-
-
-    document
-    .getElementById(name)
-    .classList.add(
-        "active"
-    );
-
-
-
-    this.buttons.forEach(
-        btn=>{
-
-
-            btn.classList.toggle(
-
-                "active",
-
-                btn.dataset.page===name
-
-            );
-
-
-        }
-    );
-
-
-}
-
-
-
-
-
-
-
-toggleTheme(){
-
-
-    document.body
-    .classList.toggle(
-        "dark"
-    );
-
-
-
-    const mode =
-    document.body.classList.contains(
-        "dark"
-    )
-    ?
-    "dark"
-    :
-    "light";
-
-
-
-    StorageManager.saveTheme(
-        mode
-    );
-
-
-}
-
-
-
-
-
-
-loadTheme(){
-
-
-    const theme =
-    StorageManager.getTheme();
-
-
-
-    if(theme==="dark"){
-
-
-        document.body
-        .classList.add(
-            "dark"
+        this.pages =
+        document.querySelectorAll(
+            ".page"
         );
+
+
+        this.navButtons =
+        document.querySelectorAll(
+            ".nav-btn"
+        );
+
+
+        this.themeKey =
+        "pitol_qr_theme";
 
 
     }
 
 
 
-}
+
+
+
+
+    initialize(){
+
+
+
+        this.setupNavigation();
+
+
+        this.loadTheme();
+
+
+
+    }
 
 
 
 
 
-toast(message){
-
-
-    const box =
-    document.getElementById(
-        "toast"
-    );
 
 
 
-    box.textContent =
-    message;
+    setupNavigation(){
 
 
 
-    box.classList.add(
-        "show"
-    );
+        this.navButtons
+        .forEach(
+
+            button=>{
+
+
+                button.onclick = ()=>{
+
+
+                    const page =
+                    button.dataset.page;
+
+
+                    this.showPage(
+                        page
+                    );
 
 
 
-    setTimeout(
-        ()=>{
+                };
 
 
-            box.classList.remove(
-                "show"
+            }
+
+
+        );
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+    showPage(pageName){
+
+
+
+        this.pages
+        .forEach(
+
+            page=>{
+
+
+                page.classList.remove(
+                    "active"
+                );
+
+
+            }
+
+        );
+
+
+
+
+
+        const target =
+        document.getElementById(
+            pageName
+        );
+
+
+
+
+
+        if(target){
+
+
+            target.classList.add(
+                "active"
             );
 
 
-        },
-        2000
-    );
+        }
 
 
-}
+
+
+
+
+        this.navButtons
+        .forEach(
+
+            button=>{
+
+
+                button.classList.remove(
+                    "active"
+                );
+
+
+                if(
+                    button.dataset.page === pageName
+                ){
+
+
+                    button.classList.add(
+                        "active"
+                    );
+
+
+                }
+
+
+            }
+
+        );
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+    toggleTheme(){
+
+
+
+        const current =
+        document.body
+        .classList.contains(
+            "dark"
+        );
+
+
+
+
+
+        if(current){
+
+
+            document.body
+            .classList.remove(
+                "dark"
+            );
+
+
+            localStorage.setItem(
+
+                this.themeKey,
+
+                "light"
+
+            );
+
+
+        }
+
+        else{
+
+
+            document.body
+            .classList.add(
+                "dark"
+            );
+
+
+            localStorage.setItem(
+
+                this.themeKey,
+
+                "dark"
+
+            );
+
+
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+
+    loadTheme(){
+
+
+
+        const saved =
+        localStorage.getItem(
+            this.themeKey
+        );
+
+
+
+
+
+        if(saved==="dark"){
+
+
+            document.body
+            .classList.add(
+                "dark"
+            );
+
+
+        }
+
+
+
+    }
+
 
 
 
