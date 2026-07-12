@@ -1,140 +1,45 @@
-/**
- * QR Generator Module
- */
-
-
-import {CONFIG} from "./config.js";
-import {StorageManager} from "./storage.js";
-import {generateID} from "./utils.js";
-
-
-
-export class QRGenerator {
-
-
-
-constructor(){
-
-
-    this.container =
-    document.getElementById(
-        "qrPreview"
-    );
-
-
-}
-
-
-
-
-generate(
-    text,
-    options={}
+addLogo(
+canvas,
+image
 ){
 
 
-
-    this.container.innerHTML="";
-
-
-
-    const canvas =
-    document.createElement(
-        "canvas"
-    );
+const ctx =
+canvas.getContext("2d");
 
 
-
-    this.container.appendChild(
-        canvas
-    );
+const logo =
+new Image();
 
 
+logo.onload =
+()=>{
 
 
-    QRCode.toCanvas(
-
-        canvas,
-
-        text,
-
-        {
-
-            width:
-            options.width ||
-            CONFIG.QR_DEFAULTS.width,
+const size =
+canvas.width * 0.22;
 
 
-            color:{
+ctx.drawImage(
 
-                dark:
-                options.dark ||
-                "#000000",
+logo,
+
+(canvas.width-size)/2,
+
+(canvas.height-size)/2,
+
+size,
+
+size
+
+);
 
 
-                light:
-                options.light ||
-                "#ffffff"
-
-            }
-
-        },
-
-        error=>{
-
-            if(error){
-
-                console.error(error);
-
-            }
-
-        }
-
-    );
+};
 
 
 
-
-
-    const item = {
-
-
-        id:generateID(),
-
-
-        content:text,
-
-
-        created:new Date(),
-
-
-        image:
-        canvas.toDataURL()
-
-
-    };
-
-
-
-    StorageManager.saveHistory(
-        item
-    );
-
-
-    return canvas;
-
-
-}
-
-
-
-clear(){
-
-
-    this.container.innerHTML="";
-
-
-}
+logo.src=image;
 
 
 }
