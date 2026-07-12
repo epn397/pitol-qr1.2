@@ -1,0 +1,35 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+
+# Editor
+.vscode/
+.idea/
+
+
+# Dependencies
+node_modules/
+
+
+# Build files
+dist/
+build/
+
+
+# Logs
+*.log
+
+
+# Temporary files
+*.tmp
+*.cache
+
+
+# Environment
+.env
+.env.*
+
+
+# Generated files
+*.zip
