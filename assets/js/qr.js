@@ -1,45 +1,47 @@
-addLogo(
-canvas,
-image
+prepareData(
+type,
+value
 ){
 
 
-const ctx =
-canvas.getContext("2d");
+switch(type){
 
 
-const logo =
-new Image();
+case "wifi":
 
-
-logo.onload =
-()=>{
-
-
-const size =
-canvas.width * 0.22;
-
-
-ctx.drawImage(
-
-logo,
-
-(canvas.width-size)/2,
-
-(canvas.height-size)/2,
-
-size,
-
-size
-
-);
-
-
-};
+return `
+WIFI:T:WPA;
+S:${value.ssid};
+P:${value.password};
+`;
 
 
 
-logo.src=image;
+case "email":
+
+return `
+MATMSG:
+TO:${value.email};
+SUB:${value.subject};
+BODY:${value.body};
+`;
+
+
+
+case "phone":
+
+return `
+TEL:${value}
+`;
+
+
+
+default:
+
+return value;
+
+
+}
 
 
 }
