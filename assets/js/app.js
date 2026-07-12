@@ -60,10 +60,40 @@ constructor(){
 
 
 
-start(){
+start() document
+.getElementById(
+    "generateBatch"
+)
+.onclick =
+async ()=>{
+
+
+const input =
+document
+.getElementById(
+    "csvInput"
+);
 
 
 
+if(
+input.files.length===0
+)
+return;
+
+
+
+await this.batch.generate(
+    input.files[0]
+);
+
+
+
+};{
+
+
+
+    
     this.ui.initialize();
 
 
