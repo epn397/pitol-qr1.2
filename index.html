@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+
+    <title>
+        PITOL QR PRO
+    </title>
+
+
+    <meta name="description"
+          content="Professional QR Code Generator and Scanner">
+
+
+    <meta name="theme-color"
+          content="#2563eb">
+
+
+    <link rel="manifest"
+          href="manifest.json">
+
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="assets/css/style.css">
+
+    <link rel="stylesheet"
+          href="assets/css/components.css">
+
+    <link rel="stylesheet"
+          href="assets/css/utilities.css">
+
+    <link rel="stylesheet"
+          href="assets/css/themes.css">
+
+
+</head>
+
+
+
+<body>
+
+
+<div id="app">
+
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+
+<header class="app-header">
+
+
+    <div class="brand">
+
+
+        <div class="brand-logo">
+
+            QR
+
+        </div>
+
+
+        <div>
+
+            <h1>
+                PITOL QR PRO
+            </h1>
+
+
+            <p>
+                Generate • Scan • Manage
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <button
+        id="themeToggle"
+        class="icon-button">
+
+
+        🌙
+
+
+    </button>
+
+
+</header>
+
+
+
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+
+<nav class="main-nav">
+
+
+<button
+class="nav-btn active"
+data-page="generator">
+
+Generate
+
+</button>
+
+
+
+<button
+class="nav-btn"
+data-page="scanner">
+
+Scan
+
+</button>
+
+
+
+<button
+class="nav-btn"
+data-page="history">
+
+History
+
+</button>
+
+
+
+<button
+class="nav-btn"
+data-page="batch">
+
+Batch
+
+</button>
+
+
+
+</nav>
+
+
+
+
+
+
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+
+
+<main>
+
+
+
+<!-- =========================
+     GENERATOR PAGE
+========================= -->
+
+
+<section
+id="generator"
+class="page active">
+
+
+<div class="card">
+
+
+<h2>
+QR Generator
+</h2>
+
+
+
+<div class="input-group">
+
+
+<label>
+Content Type
+</label>
+
+
+<select id="qrType">
+
+
+<option value="text">
+Text
+</option>
+
+
+<option value="url">
+URL
+</option>
+
+
+<option value="wifi">
+WiFi
+</option>
+
+
+<option value="email">
+Email
+</option>
+
+
+<option value="phone">
+Phone
+</option>
+
+
+<option value="vcard">
+vCard
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+<div class="input-group">
+
+
+<label>
+QR Content
+</label>
+
+
+<textarea
+id="qrInput"
+placeholder="Enter text or data">
+
+</textarea>
+
+
+</div>
+
+
+
+
+
+<div class="grid-2">
+
+
+<div class="input-group">
+
+
+<label>
+Foreground Color
+</label>
+
+
+<input
+type="color"
+id="qrForeground"
+value="#000000">
+
+
+</div>
+
+
+
+
+<div class="input-group">
+
+
+<label>
+Background Color
+</label>
+
+
+<input
+type="color"
+id="qrBackground"
+value="#ffffff">
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="input-group">
+
+
+<label>
+Logo
+</label>
+
+
+<input
+type="file"
+id="logoInput"
+accept="image/*">
+
+
+</div>
+
+
+
+
+
+<div class="button-row">
+
+
+<button
+id="generateBtn"
+class="primary-btn">
+
+Generate QR
+
+</button>
+
+
+
+<button
+id="clearBtn"
+class="secondary-btn">
+
+Clear
+
+</button>
+
+
+</div>
+
+
+
+
+
+<div
+id="qrPreview"
+class="qr-preview">
+
+
+</div>
+
+
+
+<div class="button-row">
+
+
+<button
+id="downloadPNG">
+
+PNG
+
+</button>
+
+
+<button
+id="downloadSVG">
+
+SVG
+
+</button>
+
+
+<button
+id="downloadPDF">
+
+PDF
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =========================
+     SCANNER PAGE
+========================= -->
+
+
+<section
+id="scanner"
+class="page">
+
+
+<div class="card">
+
+
+<h2>
+QR Scanner
+</h2>
+
+
+
+<div
+id="reader"
+class="scanner-box">
+
+</div>
+
+
+
+<div class="button-row">
+
+
+<button
+id="startScanner"
+class="primary-btn">
+
+Start Camera
+
+</button>
+
+
+
+<button
+id="stopScanner">
+
+Stop
+
+</button>
+
+
+</div>
+
+
+
+
+<div class="input-group">
+
+
+<label>
+
+Scan Image
+
+</label>
+
+
+<input
+id="scanImage"
+type="file"
+accept="image/*">
+
+
+</div>
+
+
+
+
+<div
+id="scanResult"
+class="result-box">
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =========================
+     HISTORY PAGE
+========================= -->
+
+
+<section
+id="history"
+class="page">
+
+
+<div class="card">
+
+
+<h2>
+History
+</h2>
+
+
+
+<div class="history-tools">
+
+
+<input
+id="historySearch"
+placeholder="Search history">
+
+
+<button
+id="clearHistory">
+
+Clear All
+
+</button>
+
+
+</div>
+
+
+
+
+<div
+id="historyList">
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =========================
+     BATCH PAGE
+========================= -->
+
+
+<section
+id="batch"
+class="page">
+
+
+<div class="card">
+
+
+<h2>
+Batch Generator
+</h2>
+
+
+
+<p>
+
+Upload CSV file to generate multiple QR codes.
+
+</p>
+
+
+
+
+<input
+type="file"
+id="csvInput"
+accept=".csv">
+
+
+
+
+
+<button
+id="generateBatch"
+class="primary-btn">
+
+Generate Batch
+
+</button>
+
+
+
+
+<div
+id="batchProgress">
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+</main>
+
+
+
+
+
+
+
+
+<!-- =========================
+     NOTIFICATION
+========================= -->
+
+
+<div
+id="toast"
+class="toast">
+
+</div>
+
+
+
+
+
+
+
+<!-- =========================
+     VENDOR LIBRARIES
+========================= -->
+
+
+<script src="vendor/qrcode.min.js"></script>
+
+<script src="vendor/html5-qrcode.min.js"></script>
+
+<script src="vendor/jspdf.min.js"></script>
+
+<script src="vendor/jszip.min.js"></script>
+
+
+
+
+
+<!-- APPLICATION MODULES -->
+
+
+<script type="module"
+src="assets/js/app.js">
+
+</script>
+
+
+
+</div>
+
+
+</body>
+
+
+</html>
