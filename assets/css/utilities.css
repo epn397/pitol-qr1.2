@@ -1,0 +1,68 @@
+/*
+    Utility Classes
+*/
+
+
+.hidden {
+
+    display:none!important;
+
+}
+
+
+
+.flex {
+
+    display:flex;
+
+}
+
+
+
+.center {
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+
+
+.text-center {
+
+    text-align:center;
+
+}
+
+
+
+.mt-1 {
+
+    margin-top:10px;
+
+}
+
+
+
+.mt-2 {
+
+    margin-top:20px;
+
+}
+
+
+
+.w-full {
+
+    width:100%;
+
+}
+
+
+
+.rounded {
+
+    border-radius:16px;
+
+}
