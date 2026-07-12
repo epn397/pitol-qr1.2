@@ -1,94 +1,53 @@
 /**
- * Utility Functions
+ * Global Error Handler
  */
 
 
-export function generateID(){
-
-    return crypto.randomUUID();
-
-}
-
-
-
-export function formatDate(date){
-
-    return new Intl.DateTimeFormat(
-        "en-US",
-        {
-            dateStyle:"medium",
-            timeStyle:"short"
-        }
-
-    ).format(date);
-
-}
-
-
-
-
-
-export function downloadFile(
-    content,
-    filename,
-    type
+export function handleError(
+    error,
+    message="Something went wrong"
 ){
 
 
-    const blob =
-        new Blob(
-            [content],
-            {
-                type:type
-            }
+    console.error(
+        message,
+        error
+    );
+
+
+    const toast =
+    document.getElementById(
+        "toast"
+    );
+
+
+    if(toast){
+
+
+        toast.textContent =
+        message;
+
+
+        toast.classList.add(
+            "show"
         );
 
 
-    const url =
-        URL.createObjectURL(blob);
+        setTimeout(
+            ()=>{
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+
+            3000
+
+        );
 
 
+    }
 
-    const a =
-        document.createElement("a");
-
-
-    a.href=url;
-
-    a.download=filename;
-
-
-    a.click();
-
-
-    URL.revokeObjectURL(url);
-
-
-}
-
-
-
-
-
-export function readFile(file){
-
-
-    return new Promise(
-        resolve=>{
-
-
-            const reader =
-            new FileReader();
-
-
-            reader.onload =
-            ()=>resolve(reader.result);
-
-
-            reader.readAsDataURL(file);
-
-
-        }
-    );
 
 }
