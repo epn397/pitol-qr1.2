@@ -346,19 +346,49 @@ generateQR(){
 
 
 
-
-
 window.addEventListener(
     "DOMContentLoaded",
     ()=>{
 
 
-       if(
-"serviceWorker" in navigator
-){
+        const app =
+        new App();
 
-navigator.serviceWorker.register(
-"service-worker.js"
+
+        app.start();
+
+
+
+        if(
+            "serviceWorker" in navigator
+        ){
+
+            navigator.serviceWorker.register(
+                "service-worker.js"
+            )
+            .then(
+                registration=>{
+
+                    console.log(
+                        "Service Worker registered:",
+                        registration.scope
+                    );
+
+                }
+            )
+            .catch(
+                error=>{
+
+                    console.error(
+                        "Service Worker registration failed:",
+                        error
+                    );
+
+                }
+            );
+
+        }
+
+
+    }
 );
-
-}
