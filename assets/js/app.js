@@ -170,27 +170,84 @@ await this.batch.generate(
 
 
 
-    document
-    .getElementById(
-        "downloadPNG"
-    )
-    .onclick =
-    ()=>{document
+   /*
+    QR Export Buttons
+*/
+
+
+document
 .getElementById(
-"downloadSVG"
+    "downloadPNG"
 )
 .onclick =
 ()=>{
 
 
-const canvas =
-document.querySelector(
-"#qrPreview canvas"
-);
+    const canvas =
+    document.querySelector(
+        "#qrPreview canvas"
+    );
 
 
-if(canvas)
-Downloader.SVG(canvas);
+    if(canvas){
+
+        Downloader.PNG(canvas);
+
+    }
+
+
+};
+
+
+
+
+
+document
+.getElementById(
+    "downloadSVG"
+)
+.onclick =
+()=>{
+
+
+    const canvas =
+    document.querySelector(
+        "#qrPreview canvas"
+    );
+
+
+    if(canvas){
+
+        Downloader.SVG(canvas);
+
+    }
+
+
+};
+
+
+
+
+
+document
+.getElementById(
+    "downloadPDF"
+)
+.onclick =
+()=>{
+
+
+    const canvas =
+    document.querySelector(
+        "#qrPreview canvas"
+    );
+
+
+    if(canvas){
+
+        Downloader.PDF(canvas);
+
+    }
 
 
 };
