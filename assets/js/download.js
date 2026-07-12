@@ -1,6 +1,6 @@
 /**
  * PITOL QR PRO
- * Export Manager
+ * Download Module
  */
 
 
@@ -8,130 +8,224 @@ export class Downloader {
 
 
 
-static PNG(canvas){
-
-
-    const link =
-    document.createElement("a");
-
-
-    link.download =
-    "pitol-qr.png";
-
-
-    link.href =
-    canvas.toDataURL(
-        "image/png"
-    );
-
-
-    link.click();
-
-
-}
+    static PNG(canvas){
 
 
 
+        if(!canvas){
 
+            return;
 
-static SVG(canvas){
-
-
-
-    const image =
-    canvas.toDataURL();
-
-
-
-    const svg =
-
-`
-<svg xmlns="http://www.w3.org/2000/svg">
-
-<image href="${image}"
-width="${canvas.width}"
-height="${canvas.height}"/>
-
-</svg>
-`;
-
-
-
-    const blob =
-    new Blob(
-        [svg],
-        {
-            type:"image/svg+xml"
         }
-    );
-
-
-
-    const url =
-    URL.createObjectURL(blob);
-
-
-
-    const link =
-    document.createElement("a");
-
-
-    link.href=url;
-
-
-    link.download =
-    "pitol-qr.svg";
-
-
-    link.click();
-
-
-}
 
 
 
 
-
-static PDF(canvas){
-
-
-
-    const pdf =
-    new jspdf.jsPDF();
+        const link =
+        document.createElement(
+            "a"
+        );
 
 
-
-    const image =
-    canvas.toDataURL(
-        "image/png"
-    );
+        link.download =
+        "pitol-qr.png";
 
 
 
-    pdf.addImage(
-
-        image,
-
-        "PNG",
-
-        40,
-
-        40,
-
-        120,
-
-        120
-
-    );
+        link.href =
+        canvas.toDataURL(
+            "image/png"
+        );
 
 
 
-    pdf.save(
-        "pitol-qr.pdf"
-    );
+        link.click();
 
 
-}
+
+    }
+
+
+
+
+
+
+    static SVG(canvas){
+
+
+
+        if(!canvas){
+
+            return;
+
+        }
+
+
+
+        const image =
+        canvas.toDataURL(
+            "image/png"
+        );
+
+
+
+        const svg =
+
+`<svg xmlns="http://www.w3.org/2000/svg"
+width="${canvas.width}"
+height="${canvas.height}">
+
+<image
+href="${image}"
+width="${canvas.width}"
+height="${canvas.height}" />
+
+</svg>`;
+
+
+
+
+
+        const blob =
+        new Blob(
+
+            [
+                svg
+            ],
+
+            {
+                type:
+                "image/svg+xml"
+            }
+
+        );
+
+
+
+
+        const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+
+
+        const link =
+        document.createElement(
+            "a"
+        );
+
+
+        link.download =
+        "pitol-qr.svg";
+
+
+
+        link.href =
+        url;
+
+
+
+        link.click();
+
+
+
+        URL
+        .revokeObjectURL(
+            url
+        );
+
+
+
+    }
+
+
+
+
+
+
+
+    static PDF(canvas){
+
+
+
+        if(!canvas){
+
+            return;
+
+        }
+
+
+
+
+
+        if(
+            typeof jsPDF === "undefined"
+        ){
+
+
+            console.error(
+
+                "jsPDF library missing"
+
+            );
+
+
+            return;
+
+
+        }
+
+
+
+
+
+
+        const image =
+        canvas.toDataURL(
+            "image/png"
+        );
+
+
+
+
+
+        const pdf =
+        new jsPDF();
+
+
+
+
+
+        pdf.addImage(
+
+            image,
+
+            "PNG",
+
+            15,
+
+            15,
+
+            180,
+
+            180
+
+        );
+
+
+
+
+        pdf.save(
+
+            "pitol-qr.pdf"
+
+        );
+
+
+
+    }
 
 
 
