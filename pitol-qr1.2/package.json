@@ -1,0 +1,22 @@
+{
+  "name": "pitol-qr-pro",
+  "version": "1.0.0",
+  "description": "Professional QR Code Generator and Scanner Progressive Web App",
+  "author": "Brown Fox",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "echo \"Open index.html in browser\"",
+    "dev": "echo \"Development mode\""
+  },
+  "keywords": [
+    "qr",
+    "qr-code",
+    "generator",
+    "scanner",
+    "pwa",
+    "javascript",
+    "offline"
+  ]
+}
