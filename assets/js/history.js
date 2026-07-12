@@ -1,57 +1,48 @@
 /**
  * PITOL QR PRO
- * History Management
+ * History Manager Module
  */
-
-
-import {StorageManager} from "./storage.js";
-
-import {formatDate} from "./utils.js";
-
 
 
 export class HistoryManager {
 
 
 
-constructor(){
+    constructor(){
 
 
-    this.container =
-    document.getElementById(
-        "historyList"
-    );
+        this.key =
+        "pitol_qr_history";
 
 
-}
+        this.container =
+        document.getElementById(
+            "historyList"
+        );
 
 
+        this.searchInput =
+        document.getElementById(
+            "historySearch"
+        );
 
 
-render(){
+        if(this.searchInput){
 
 
-    const items =
-    StorageManager.getHistory();
+            this.searchInput
+            .addEventListener(
+
+                "input",
+
+                ()=>this.render()
+
+            );
 
 
-
-    this.container.innerHTML="";
-
+        }
 
 
-    if(items.length===0){
-
-
-        this.container.innerHTML =
-        `
-        <p class="text-center">
-        No QR history available
-        </p>
-        `;
-
-
-        return;
 
     }
 
@@ -59,108 +50,398 @@ render(){
 
 
 
-    items.forEach(item=>{
 
 
-        const card =
-        document.createElement(
-            "div"
+    get(){
+
+
+
+        try{
+
+
+            return JSON.parse(
+
+                localStorage.getItem(
+                    this.key
+                )
+
+            ) || [];
+
+
+        }
+
+        catch(error){
+
+
+            console.error(
+                "History read error:",
+                error
+            );
+
+
+            return [];
+
+
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+    save(items){
+
+
+        localStorage.setItem(
+
+            this.key,
+
+            JSON.stringify(items)
+
         );
 
 
-        card.className =
-        "history-item";
+    }
 
 
 
-        card.innerHTML =
-        `
-
-        <strong>
-        ${item.content}
-        </strong>
-
-
-        <p>
-        ${formatDate(
-            new Date(item.created)
-        )}
-        </p>
-
-
-        <button data-id="${item.id}">
-        Delete
-        </button>
-
-        `;
 
 
 
-        card
-        .querySelector("button")
-        .onclick =
-        ()=>this.delete(item.id);
+
+
+    add(item){
 
 
 
-        this.container.appendChild(
-            card
+        const history =
+        this.get();
+
+
+
+
+        history.unshift(item);
+
+
+
+
+        /*
+        Limit storage size
+        */
+
+
+        if(history.length > 100){
+
+
+            history.pop();
+
+
+        }
+
+
+
+
+
+        this.save(history);
+
+
+
+    }
+
+
+
+
+
+
+
+
+    render(){
+
+
+
+        if(!this.container){
+
+            return;
+
+        }
+
+
+
+
+        let items =
+        this.get();
+
+
+
+
+
+        /*
+        Search filter
+        */
+
+
+        if(
+            this.searchInput &&
+            this.searchInput.value.trim()
+        ){
+
+
+
+            const keyword =
+            this.searchInput.value
+            .toLowerCase();
+
+
+
+
+            items =
+            items.filter(
+
+                item=>
+
+                item.content
+                .toLowerCase()
+                .includes(keyword)
+
+            );
+
+
+
+        }
+
+
+
+
+
+
+        if(items.length===0){
+
+
+            this.container.innerHTML =
+
+            `
+
+            <p>
+            No history found
+            </p>
+
+            `;
+
+
+            return;
+
+
+        }
+
+
+
+
+
+
+
+        this.container.innerHTML =
+
+        items.map(
+
+            (item,index)=>
+
+
+            `
+
+            <div class="history-item">
+
+
+                <div>
+
+
+                    <strong>
+                    ${this.escape(item.type)}
+                    </strong>
+
+
+                    <p>
+                    ${this.escape(item.content)}
+                    </p>
+
+
+                    <small>
+                    ${new Date(item.date)
+                    .toLocaleString()}
+                    </small>
+
+
+                </div>
+
+
+
+                <button
+                data-index="${index}"
+                class="delete-history">
+
+
+                Delete
+
+
+                </button>
+
+
+
+            </div>
+
+
+            `
+
+
+        ).join("");
+
+
+
+
+
+
+        document
+        .querySelectorAll(
+            ".delete-history"
+        )
+        .forEach(
+
+
+            button=>{
+
+
+                button.onclick = ()=>{
+
+
+                    this.remove(
+
+                        Number(
+                            button.dataset.index
+                        )
+
+                    );
+
+
+                };
+
+
+            }
+
+
         );
 
 
-    });
 
 
-
-}
-
-
-
-
-
-delete(id){
-
-
-    let history =
-    StorageManager.getHistory();
-
-
-
-    history =
-    history.filter(
-        item=>item.id!==id
-    );
-
-
-
-    localStorage.setItem(
-
-        "pitol_qr_history",
-
-        JSON.stringify(history)
-
-    );
-
-
-
-    this.render();
-
-
-}
+    }
 
 
 
 
 
-clear(){
 
 
-    StorageManager.clearHistory();
 
-    this.render();
+    remove(index){
 
 
-}
+
+        const items =
+        this.get();
+
+
+
+        items.splice(
+
+            index,
+
+            1
+
+        );
+
+
+
+        this.save(items);
+
+
+        this.render();
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+    clear(){
+
+
+
+        localStorage.removeItem(
+            this.key
+        );
+
+
+        this.render();
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+    escape(value){
+
+
+
+        return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+
+
+    }
+
+
+
 
 
 }
