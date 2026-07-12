@@ -145,17 +145,47 @@ start(){
         "downloadPNG"
     )
     .onclick =
-    ()=>{
+    ()=>{document
+.getElementById(
+"downloadSVG"
+)
+.onclick =
+()=>{
 
 
-        const canvas =
-        document.querySelector(
-            "#qrPreview canvas"
-        );
+const canvas =
+document.querySelector(
+"#qrPreview canvas"
+);
 
 
-        if(canvas)
-        Downloader.PNG(canvas);
+if(canvas)
+Downloader.SVG(canvas);
+
+
+};
+
+
+
+document
+.getElementById(
+"downloadPDF"
+)
+.onclick =
+()=>{
+
+
+const canvas =
+document.querySelector(
+"#qrPreview canvas"
+);
+
+
+if(canvas)
+Downloader.PDF(canvas);
+
+
+};
 
 
     };
