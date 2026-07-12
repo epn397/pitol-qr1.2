@@ -1,0 +1,237 @@
+/*
+    PITOL QR PRO
+    Components
+*/
+
+
+
+.icon-button {
+
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    border:none;
+
+    cursor:pointer;
+
+    background:var(--surface);
+
+    box-shadow:var(--shadow);
+
+}
+
+
+
+
+
+.button-row {
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    margin-top:15px;
+
+}
+
+
+
+button {
+
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+
+
+button:hover {
+
+    transform:translateY(-2px);
+
+}
+
+
+
+
+
+.primary-btn {
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+
+
+.secondary-btn {
+
+    background:#e2e8f0;
+
+}
+
+
+
+
+
+
+
+.grid-2 {
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+
+}
+
+
+
+
+.scanner-box {
+
+
+    min-height:320px;
+
+    border-radius:18px;
+
+    border:2px dashed var(--border);
+
+    overflow:hidden;
+
+
+}
+
+
+
+
+
+.result-box {
+
+
+    margin-top:20px;
+
+    padding:15px;
+
+    background:#f1f5f9;
+
+    border-radius:12px;
+
+    word-break:break-word;
+
+
+}
+
+
+
+
+
+.history-tools {
+
+
+    display:flex;
+
+    gap:10px;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.history-item {
+
+
+    padding:15px;
+
+    margin-bottom:10px;
+
+    border-radius:12px;
+
+    background:#f8fafc;
+
+
+}
+
+
+
+
+
+.toast {
+
+
+    position:fixed;
+
+    bottom:25px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    padding:15px 25px;
+
+    border-radius:30px;
+
+    background:#0f172a;
+
+    color:white;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.3s;
+
+}
+
+
+
+.toast.show {
+
+    opacity:1;
+
+}
+
+
+
+
+
+
+
+@media(max-width:700px){
+
+
+.grid-2 {
+
+    grid-template-columns:1fr;
+
+}
+
+
+
+.history-tools {
+
+    flex-direction:column;
+
+}
+
+
+}
